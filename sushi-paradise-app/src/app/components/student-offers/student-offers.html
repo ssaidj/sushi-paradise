@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<div class="student-offers-page">
+  <div class="header-section">
+    <h1 class="page-title">🎓 Offres Étudiantes</h1>
+    <p class="subtitle">Profitez de -10% sur une sélection de nos boxes !</p>
+    <div class="student-badge">
+      <span class="badge-icon">💳</span>
+      <span>Présentation de la carte étudiante requise à la récupération</span>
+    </div>
+  </div>
+
+  <div class="offers-grid">
+    @for (offer of offers; track offer.id) {
+      <div class="offer-card">
+        <div class="discount-badge">-10%</div>
+        <a [routerLink]="['/product', offer.id]" [queryParams]="{ boxType: 'student' }" class="offer-link">
+          <img [src]="offer.image ? '/assets/' + offer.image + '.jpg' : '/sushi1.jpg'" [alt]="offer.name" class="offer-image" />
+          <div class="offer-content">
+            <h3 class="offer-name">{{ offer.name }}</h3>
+            <p class="offer-description">{{ offer.description }}</p>
+            <div class="price-section">
+              <span class="original-price">{{ getOriginalPrice(offer.price) | number:'1.2-2' }}€</span>
+              <span class="discounted-price">{{ offer.price | number:'1.2-2' }}€</span>
+            </div>
+          </div>
+        </a>
+        <button (click)="addToCart(offer)" class="btn-add-cart">
+          Ajouter au panier
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Réseaux:</h3>
+        <div class="social-links">
+          <a href="https://instagram.com" target="_blank" class="social-link">
+            <span class="icon"><i class="fa-brands fa-instagram"></i></span> Instagram
+          </a>
+          <a href="https://facebook.com" target="_blank" class="social-link">
+            <span class="icon"><i class="fa-brands fa-square-facebook"></i></span> Facebook
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Contacts:</h3>
+        <div class="contact-info">
+          <p class="contact-item">
+            <span class="icon"><i class="fa-solid fa-phone"></i></span> +33 6 67 68 69 70
+          </p>
+          <p class="contact-item">
+            <span class="icon"><i class="fa-solid fa-envelope"></i></span> sushiparadise@gmail.com
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <a routerLink="/privacy-policy" class="privacy-link">Politique des protections des données</a>
+      <p>Toutes les sushis été créés avec amour</p>
+      <p>© SushiParadise, Cahier de l'art du Nigiri</p>
+    </div>
+  </footer>
+</div>

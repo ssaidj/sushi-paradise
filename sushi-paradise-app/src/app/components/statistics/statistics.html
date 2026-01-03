@@ -1,0 +1,100 @@
+<div class="statistics-container">
+  <h1>
+    📊 Statistiques 
+    @if (authService.isAdmin()) {
+      <span style="font-size: 0.6em; color: #FF6B35; font-weight: bold;">🔑 Admin - Toutes les commandes</span>
+    } @else {
+      <span style="font-size: 0.6em; color: #666;">de vos commandes</span>
+    }
+  </h1>
+
+  @if (loading) {
+    <div class="loading">
+      <p>Chargement des statistiques...</p>
+    </div>
+  } @else if (errorMessage) {
+    <div class="error-message">
+      <p>⚠️ {{ errorMessage }}</p>
+      <a routerLink="/orders" class="btn-primary">Voir mes commandes</a>
+    </div>
+  } @else if (totalOrders === 0) {
+    <div class="no-data">
+      <p>Aucune commande pour le moment</p>
+      <a routerLink="/catalog" class="btn-primary">Découvrir nos produits</a>
+    </div>
+  } @else {
+    <!-- Statistiques globales -->
+    <div class="stats-cards">
+      <div class="stat-card">
+        <div class="stat-icon">📦</div>
+        <div class="stat-info">
+          <h3>{{ totalOrders }}</h3>
+          <p>Commandes totales</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info">
+          <h3>{{ totalRevenue | number:'1.2-2' }}€</h3>
+          @if (authService.isAdmin()) {
+            <p>Chiffre d'affaires total</p>
+          } @else {
+            <p>Argent dépensé au total</p>
+          }
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-info">
+          <h3>{{ averageOrderValue | number:'1.2-2' }}€</h3>
+          <p>Panier moyen</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graphiques principaux -->
+    <div class="charts-grid">
+      <!-- Graphique: Nombre de commandes par mois -->
+      <div class="chart-section">
+        <h2>📈 Commandes par mois</h2>
+        <div class="chart-wrapper">
+          <canvas baseChart
+            [data]="ordersChartData"
+            [options]="ordersChartOptions"
+            [type]="ordersChartType">
+          </canvas>
+        </div>
+      </div>
+
+      <!-- Graphique: Chiffre d'affaires par mois -->
+      <div class="chart-section">
+        @if (authService.isAdmin()) {
+          <h2>💵 Chiffre d'affaires par mois</h2>
+        } @else {
+          <h2>💵 Argent dépensé par mois</h2>
+        }
+        <div class="chart-wrapper">
+          <canvas baseChart
+            [data]="revenueChartData"
+            [options]="revenueChartOptions"
+            [type]="revenueChartType">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graphique: Statut des commandes -->
+    <div class="chart-section full-width">
+      <h2>🎯 Répartition par statut</h2>
+      <div class="chart-wrapper small">
+        <canvas baseChart
+          [data]="statusChartData"
+          [options]="statusChartOptions"
+          [type]="statusChartType">
+        </canvas>
+      </div>
+    </div>
+  }
+</div>
