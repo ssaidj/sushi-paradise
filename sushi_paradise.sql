@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : dim. 28 déc. 2025 à 16:31
+-- Généré le : lun. 19 jan. 2026 à 17:40
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -290,7 +290,10 @@ INSERT INTO `orders` (`id`, `user_id`, `total_price`, `status`, `created_at`) VA
 (20, 17, 12.50, 'completed', '2025-12-28 16:19:59'),
 (21, 17, 14.31, 'pending', '2025-12-28 16:21:56'),
 (22, 17, 17.04, 'completed', '2025-12-28 16:23:48'),
-(23, 20, 26.58, 'pending', '2025-12-28 16:30:50');
+(23, 20, 26.58, 'pending', '2025-12-28 16:30:50'),
+(25, 20, 25.56, 'completed', '2025-12-29 17:59:08'),
+(26, 26, 59.31, 'completed', '2025-12-29 18:05:50'),
+(27, 20, 25.56, 'completed', '2026-01-14 17:30:59');
 
 -- --------------------------------------------------------
 
@@ -329,7 +332,14 @@ INSERT INTO `order_items` (`id`, `order_id`, `box_id`, `quantity`, `unit_price`)
 (46, 22, 3, 1, 7.50),
 (47, 23, 4, 1, 9.54),
 (48, 23, 3, 1, 7.50),
-(49, 23, 8, 1, 9.54);
+(49, 23, 8, 1, 9.54),
+(51, 25, 2, 1, 14.31),
+(52, 25, 3, 1, 11.25),
+(53, 26, 3, 1, 11.25),
+(54, 26, 2, 1, 14.31),
+(55, 26, 1, 3, 11.25),
+(56, 27, 2, 1, 14.31),
+(57, 27, 3, 1, 11.25);
 
 -- --------------------------------------------------------
 
@@ -342,6 +352,7 @@ CREATE TABLE `users` (
   `firstname` varchar(100) NOT NULL,
   `lastname` varchar(100) NOT NULL,
   `email` varchar(150) NOT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'regular',
   `password` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `api_token` varchar(100) DEFAULT NULL
@@ -351,15 +362,12 @@ CREATE TABLE `users` (
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `password`, `created_at`, `api_token`) VALUES
-(1, '', '', '', '$2y$10$iXxM4wCP/RuJA80Bder/.OyfkJ/8Y5TPre7ENjkr9uvnuH0sPgNum', '2025-12-04 21:56:36', NULL),
-(6, 'John', 'Doe', 'john.doe@example.com', '$2y$10$RxnyjzFOr6GRjJdGnaxO8u.39O2bh77HdsHn2V0HU2UIZYrqr8cli', '2025-12-04 22:00:55', NULL),
-(11, 'Jon', 'Doe', 'joh.doe@example.com', '$2y$10$cErTU8hyJl1u7xYLZv3CrugKdptjJAIRuX0UdKtYCxe5r3U9PbBUq', '2025-12-04 22:12:43', NULL),
-(14, 'Jon', 'Dooe', 'jooonh.doe@example.com', '$2y$10$xhulTf1KRI9.4om2/Kz53e74BG55tCtSmoXvH3z3zUrhQlf12x.5i', '2025-12-04 22:15:45', NULL),
-(15, 'Jon', 'Dooe', 'joobnh.doe@example.com', '$2y$10$3bWNqqmmsYl9w5JKLjXHxuDjIen4vwTJWIrnb.siDPZQLlOLDgMWe', '2025-12-04 22:17:28', NULL),
-(17, 'Saidj', 'Sofiane', 'saidjsofiane@gmail.com', '$2y$10$0NxZiXZ7JfV48tHywm0MiOhPrY1T2AUq35lj6M.kXew4kExJyVZ5i', '2025-12-04 22:22:57', '5813e352f872246804053a111061cf6d4c5cf6aae80f21195802750adf1babdd'),
-(20, 'Sofiane', 'Saidj', 'saidjsofiane93@gmail.com', '$2y$10$j1mq1nGG7N83YDeRJitSHOcwWwNrhUzn7R4PPagBQV.DalVXB96mq', '2025-12-07 18:34:32', 'fa9bfc8280be485d32cc3467ee151dd64bc5e72b1c401a6bb2368d9fa88312a3'),
-(21, 'Compte', 'Admin', 'admin@gmail.com', '$2y$10$V5qWnO2hmorWf4yZm3JfBOAd4v6bXZ0yu2twHuwXIjYt0ymGfV73S', '2025-12-28 16:01:36', 'c10640c00d2a854b7444c68cb7fa9ae620ca8e3fbb95a04dfc9736c1b8ee8a6e');
+INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `status`, `password`, `created_at`, `api_token`) VALUES
+(17, 'Saidj', 'Sofiane', 'saidjsofiane@gmail.com', 'regular', '$2y$10$0NxZiXZ7JfV48tHywm0MiOhPrY1T2AUq35lj6M.kXew4kExJyVZ5i', '2025-12-04 22:22:57', '5813e352f872246804053a111061cf6d4c5cf6aae80f21195802750adf1babdd'),
+(20, 'Sofiane', 'Saidj', 'saidjsofiane93@gmail.com', 'student', '$2y$10$j1mq1nGG7N83YDeRJitSHOcwWwNrhUzn7R4PPagBQV.DalVXB96mq', '2025-12-07 18:34:32', 'a72db09bf0874fd09befc813850a2a0c49ecc04210695f18561dbbf76e3921d7'),
+(21, 'Compte', 'Admin', 'admin@gmail.com', 'regular', '$2y$10$V5qWnO2hmorWf4yZm3JfBOAd4v6bXZ0yu2twHuwXIjYt0ymGfV73S', '2025-12-28 16:01:36', '843597d0f685cb0119de23f9af9e00591ea0f0b70dae52dcdc2072bc63dbcc17'),
+(26, 'medhi', 'zenati', 'mehdi@gmail.com', 'student', '$2y$10$5FldRBb5Lv4UfQA/ETGzwu74H7iaT2wWZKuNUT47qY0PQd6ghm9c2', '2025-12-29 18:04:33', '0ff5d8329185189b427ea915c1dbca29445c97083dab6516e6ab392ef08eab6a'),
+(27, '123', '123', '123@gmail.com', 'student', '$2y$10$isEpM13GPO2/ABWcKChtHOKx1VPpNUGRFkmJoQGNZ1fqOWS8utU1u', '2026-01-19 17:38:36', '3466d1038b60b689248cec5a98c0465483062f75cb3429fbc791028116546485');
 
 --
 -- Index pour les tables déchargées
@@ -447,19 +455,19 @@ ALTER TABLE `foods`
 -- AUTO_INCREMENT pour la table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT pour la table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Contraintes pour les tables déchargées
